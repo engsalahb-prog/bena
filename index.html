@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0042)file:///C:/Users/ASUS/Downloads/index.html -->
+<!-- saved from url=(0044)file:///C:/Users/ASUS/Downloads/index_1.html -->
 <html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -172,6 +172,29 @@ tbody tr:hover td{background:#faf8f4;}
 <script src="./index_files/supabase-js@2"></script>
 </head>
 <body>
+<!-- شاشة تسجيل الدخول -->
+<div id="login-screen" style="display:flex;position:fixed;inset:0;background:linear-gradient(135deg,#0d1f35,#1d4ed8);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:2.5rem;width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <div style="font-size:2.5rem">🏗</div>
+      <div style="font-size:1rem;font-weight:900;color:#0d1f35;margin-top:.5rem">بناء وعمارة للمقاولات</div>
+      <div style="font-size:.75rem;color:#6b7280">النظام الإداري v2.0</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.8rem">
+      <input id="login-user" placeholder="اسم المستخدم" style="padding:10px;border:1.5px solid #ddd4c0;border-radius:8px;font-family:Cairo,sans-serif;font-size:.85rem;direction:rtl">
+      <input id="login-pass" type="password" placeholder="كلمة المرور" style="padding:10px;border:1.5px solid #ddd4c0;border-radius:8px;font-family:Cairo,sans-serif;font-size:.85rem;direction:rtl" onkeypress="if(event.key===&#39;Enter&#39;)doLogin()">
+      <div id="login-err" style="color:#b91c1c;font-size:.75rem;text-align:center"></div>
+      <button onclick="doLogin()" style="padding:10px;background:#0d1f35;color:#fff;border:none;border-radius:8px;font-family:Cairo,sans-serif;font-size:.88rem;font-weight:700;cursor:pointer">دخول</button>
+    </div>
+    <div style="margin-top:1rem;padding:1rem;background:#f0f9ff;border-radius:8px;font-size:.72rem;color:#555">
+      <div style="font-weight:700;margin-bottom:.3rem">بيانات الدخول:</div>
+      <div>مدير: admin / admin123</div>
+      <div>محاسب: accountant / acc123</div>
+      <div>مشرف: supervisor / sup123</div>
+    </div>
+  </div>
+</div>
+<div id="app-content" style="display:none;width:100%;height:100%">
 <button class="mob-toggle" id="mob-toggle">☰</button>
 <aside class="sb" id="sidebar">
   <div class="sb-brand">
@@ -214,6 +237,8 @@ tbody tr:hover td{background:#faf8f4;}
     <div class="nav-sec">الإعدادات</div>
     <div class="ni" data-page="reports"><span class="ni-ic">📄</span>التقارير</div>
     <div class="ni" data-page="settings"><span class="ni-ic">🏢</span>إعدادات المؤسسة</div>
+    <div class="ni" data-page="audit"><span class="ni-ic">📋</span>سجل التعديلات</div>
+    <div class="ni" data-page="users"><span class="ni-ic">👥</span>المستخدمون</div>
     <div class="ni" data-page="backup"><span class="ni-ic">💾</span>النسخ الاحتياطي</div>
   </nav>
   <div class="sb-foot"><span class="sync-dot" id="sdot"></span><span id="stxt">✓ متصل</span></div>
@@ -236,11 +261,11 @@ tbody tr:hover td{background:#faf8f4;}
     <!-- DASHBOARD -->
     <div class="pg on" id="pg-dashboard">
       <div class="krow" style="grid-template-columns:repeat(5,1fr)">
-        <div class="kpi" onclick="goPage(&#39;projects&#39;)" style="cursor:pointer" title="إدارة المشاريع"><div class="kic" style="background:#dbeafe">📁</div><div><div class="kv" id="k-proj">4</div><div class="kl">مشاريع نشطة</div></div></div>
+        <div class="kpi" onclick="goPage(&#39;projects&#39;)" style="cursor:pointer" title="إدارة المشاريع"><div class="kic" style="background:#dbeafe">📁</div><div><div class="kv" id="k-proj">1</div><div class="kl">مشاريع نشطة</div></div></div>
         <div class="kpi" onclick="goPage(&#39;projects&#39;)" style="cursor:pointer" title="المشاريع المتأخرة"><div class="kic" style="background:#fee2e2">⏰</div><div><div class="kv neg" id="k-delay">0</div><div class="kl">متأخرة</div></div></div>
         <div class="kpi" onclick="goPage(&#39;finance&#39;)" style="cursor:pointer" title="الحركات المالية"><div class="kic" style="background:#dcfce7">⬆️</div><div><div class="kv pos" id="k-in" style="font-size:.85rem">0.00 ر.س</div><div class="kl">إجمالي الوارد</div></div></div>
-        <div class="kpi" onclick="goPage(&#39;finance&#39;)" style="cursor:pointer" title="الحركات المالية"><div class="kic" style="background:#fee2e2">⬇️</div><div><div class="kv neg" id="k-out" style="font-size:.85rem">4,355,631.34 ر.س</div><div class="kl">إجمالي الصادر</div></div></div>
-        <div class="kpi" onclick="goPage(&#39;budget&#39;)" style="cursor:pointer" title="الميزانية العامة"><div class="kic" style="background:#fef3c7">💵</div><div><div class="kv neg" id="k-net" style="font-size:.85rem">-4,355,631.34 ر.س</div><div class="kl">صافي الربح</div></div></div>
+        <div class="kpi" onclick="goPage(&#39;finance&#39;)" style="cursor:pointer" title="الحركات المالية"><div class="kic" style="background:#fee2e2">⬇️</div><div><div class="kv neg" id="k-out" style="font-size:.85rem">0.00 ر.س</div><div class="kl">إجمالي الصادر</div></div></div>
+        <div class="kpi" onclick="goPage(&#39;budget&#39;)" style="cursor:pointer" title="الميزانية العامة"><div class="kic" style="background:#fef3c7">💵</div><div><div class="kv pos" id="k-net" style="font-size:.85rem">0.00 ر.س</div><div class="kl">صافي الربح</div></div></div>
       </div>
       <div class="krow" style="grid-template-columns:repeat(5,1fr)">
         <div class="kpi" onclick="goPage(&#39;workers&#39;)" style="cursor:pointer" title="العمالة"><div class="kic" style="background:#ede9fe">👥</div><div><div class="kv" id="k-wk">0</div><div class="kl">العمالة</div></div></div>
@@ -250,14 +275,14 @@ tbody tr:hover td{background:#faf8f4;}
         <div class="kpi" onclick="goPage(&#39;alerts&#39;)" style="cursor:pointer" title="التنبيهات"><div class="kic" style="background:#fef2f2">⚠️</div><div><div class="kv neg" id="k-al">0</div><div class="kl">تنبيهات</div></div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;">
-        <div class="card" style="padding:1rem"><div style="font-weight:800;font-size:.83rem;color:var(--navy);margin-bottom:.8rem">📊 توزيع المصروفات</div><div id="exp-chart"><div class="bar-row"><div class="bar-label">👷 عمالة</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:#8b5cf6"></div></div><div class="bar-val">2,286,517.98 ر.س</div></div><div class="bar-row"><div class="bar-label">🧱 مواد</div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#3b82f6"></div></div><div class="bar-val">1,745,427.32 ر.س</div></div><div class="bar-row"><div class="bar-label">📌 إدارية</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:#06b6d4"></div></div><div class="bar-val">164,046.09 ر.س</div></div><div class="bar-row"><div class="bar-label">📌 أخرى</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:#f97316"></div></div><div class="bar-val">159,639.95 ر.س</div></div></div></div>
-        <div class="card" style="padding:1rem"><div style="font-weight:800;font-size:.83rem;color:var(--navy);margin-bottom:.8rem">💰 الملخص المالي</div><div id="fin-chart"><div class="bar-row"><div class="bar-label" style="color:var(--green)">⬆️ وارد</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--green)"></div></div><div class="bar-val" style="color:var(--green)">0.00 ر.س</div></div><div class="bar-row"><div class="bar-label" style="color:var(--red)">⬇️ صادر</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--red)"></div></div><div class="bar-val" style="color:var(--red)">4,355,631.34 ر.س</div></div><div class="bar-row"><div class="bar-label" style="color:var(--red)">💵 صافي</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--orange)"></div></div><div class="bar-val" style="color:var(--red)">-4,355,631.34 ر.س</div></div></div></div>
+        <div class="card" style="padding:1rem"><div style="font-weight:800;font-size:.83rem;color:var(--navy);margin-bottom:.8rem">📊 توزيع المصروفات</div><div id="exp-chart"><div style="color:var(--muted);font-size:.78rem">لا بيانات</div></div></div>
+        <div class="card" style="padding:1rem"><div style="font-weight:800;font-size:.83rem;color:var(--navy);margin-bottom:.8rem">💰 الملخص المالي</div><div id="fin-chart"><div class="bar-row"><div class="bar-label" style="color:var(--green)">⬆️ وارد</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--green)"></div></div><div class="bar-val" style="color:var(--green)">0.00 ر.س</div></div><div class="bar-row"><div class="bar-label" style="color:var(--red)">⬇️ صادر</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div><div class="bar-val" style="color:var(--red)">0.00 ر.س</div></div><div class="bar-row"><div class="bar-label" style="color:var(--green)">💵 صافي</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--gold)"></div></div><div class="bar-val" style="color:var(--green)">0.00 ر.س</div></div></div></div>
       </div>
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.2rem;">
-        <div><div class="sec-hd"><h2>المشاريع النشطة</h2><button class="btn btn-sm btn-outline" onclick="goPage(&#39;projects&#39;)">عرض الكل</button></div><div class="g2" id="dash-projs"><div class="card c-green pcard" data-num="PROJ-004"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem"><div style="cursor:pointer;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)"><div style="font-weight:800;font-size:.85rem;color:var(--navy)">PROJ-004 — مشروع الرياض الخضراء - شركة الراشد</div><div style="font-size:.68rem;color:var(--muted);margin-top:1px">👤 —</div></div><span class="bdg bg-green">نشط</span></div><div class="pb"><div class="pbf" style="width:0%"></div></div><div style="display:flex;justify-content:space-between;font-size:.7rem;margin-top:3px"><span style="color:var(--muted)">إنجاز: <strong style="color:var(--navy)">0%</strong></span><span style="color:var(--muted)">انتهاء: <strong>—</strong></span></div><div style="font-size:.7rem;margin-top:2px;color:var(--muted)">العقد: <strong>0.00 ر.س</strong></div><div style="display:flex;gap:4px;margin-top:.6rem"><button class="btn btn-xs" style="background:var(--navy);color:#fff;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)">📊 تفاصيل</button><button class="btn btn-xs btn-outline" style="flex:1" onclick="editProj(this.closest(&#39;.pcard&#39;).dataset.num)">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff" onclick="delProj(this.closest(&#39;.pcard&#39;).dataset.num)">🗑️</button></div></div><div class="card c-green pcard" data-num="PROJ-003"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem"><div style="cursor:pointer;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)"><div style="font-weight:800;font-size:.85rem;color:var(--navy)">PROJ-003 — مشاريع شركة مجد للمقاولات</div><div style="font-size:.68rem;color:var(--muted);margin-top:1px">👤 —</div></div><span class="bdg bg-green">نشط</span></div><div class="pb"><div class="pbf" style="width:0%"></div></div><div style="display:flex;justify-content:space-between;font-size:.7rem;margin-top:3px"><span style="color:var(--muted)">إنجاز: <strong style="color:var(--navy)">0%</strong></span><span style="color:var(--muted)">انتهاء: <strong>—</strong></span></div><div style="font-size:.7rem;margin-top:2px;color:var(--muted)">العقد: <strong>0.00 ر.س</strong></div><div style="display:flex;gap:4px;margin-top:.6rem"><button class="btn btn-xs" style="background:var(--navy);color:#fff;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)">📊 تفاصيل</button><button class="btn btn-xs btn-outline" style="flex:1" onclick="editProj(this.closest(&#39;.pcard&#39;).dataset.num)">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff" onclick="delProj(this.closest(&#39;.pcard&#39;).dataset.num)">🗑️</button></div></div><div class="card c-green pcard" data-num="PROJ-002"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem"><div style="cursor:pointer;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)"><div style="font-weight:800;font-size:.85rem;color:var(--navy)">PROJ-002 — مول الراشد بالخبر</div><div style="font-size:.68rem;color:var(--muted);margin-top:1px">👤 —</div></div><span class="bdg bg-green">نشط</span></div><div class="pb"><div class="pbf" style="width:0%"></div></div><div style="display:flex;justify-content:space-between;font-size:.7rem;margin-top:3px"><span style="color:var(--muted)">إنجاز: <strong style="color:var(--navy)">0%</strong></span><span style="color:var(--muted)">انتهاء: <strong>—</strong></span></div><div style="font-size:.7rem;margin-top:2px;color:var(--muted)">العقد: <strong>0.00 ر.س</strong></div><div style="display:flex;gap:4px;margin-top:.6rem"><button class="btn btn-xs" style="background:var(--navy);color:#fff;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)">📊 تفاصيل</button><button class="btn btn-xs btn-outline" style="flex:1" onclick="editProj(this.closest(&#39;.pcard&#39;).dataset.num)">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff" onclick="delProj(this.closest(&#39;.pcard&#39;).dataset.num)">🗑️</button></div></div><div class="card c-green pcard" data-num="PROJ-001"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem"><div style="cursor:pointer;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)"><div style="font-weight:800;font-size:.85rem;color:var(--navy)">PROJ-001 — مستشفى الملك فيصل الجامعي بالاحساء</div><div style="font-size:.68rem;color:var(--muted);margin-top:1px">👤 —</div></div><span class="bdg bg-green">نشط</span></div><div class="pb"><div class="pbf" style="width:0%"></div></div><div style="display:flex;justify-content:space-between;font-size:.7rem;margin-top:3px"><span style="color:var(--muted)">إنجاز: <strong style="color:var(--navy)">0%</strong></span><span style="color:var(--muted)">انتهاء: <strong>—</strong></span></div><div style="font-size:.7rem;margin-top:2px;color:var(--muted)">العقد: <strong>0.00 ر.س</strong></div><div style="display:flex;gap:4px;margin-top:.6rem"><button class="btn btn-xs" style="background:var(--navy);color:#fff;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)">📊 تفاصيل</button><button class="btn btn-xs btn-outline" style="flex:1" onclick="editProj(this.closest(&#39;.pcard&#39;).dataset.num)">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff" onclick="delProj(this.closest(&#39;.pcard&#39;).dataset.num)">🗑️</button></div></div></div></div>
+        <div><div class="sec-hd"><h2>المشاريع النشطة</h2><button class="btn btn-sm btn-outline" onclick="goPage(&#39;projects&#39;)">عرض الكل</button></div><div class="g2" id="dash-projs"><div class="card c-green pcard" data-num="11"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem"><div style="cursor:pointer;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)"><div style="font-weight:800;font-size:.85rem;color:var(--navy)">11 — مشاريع المجد</div><div style="font-size:.68rem;color:var(--muted);margin-top:1px">👤 —</div></div><span class="bdg bg-green">نشط</span></div><div class="pb"><div class="pbf" style="width:0%"></div></div><div style="display:flex;justify-content:space-between;font-size:.7rem;margin-top:3px"><span style="color:var(--muted)">إنجاز: <strong style="color:var(--navy)">0%</strong></span><span style="color:var(--muted)">انتهاء: <strong>—</strong></span></div><div style="font-size:.7rem;margin-top:2px;color:var(--muted)">العقد: <strong>0.00 ر.س</strong></div><div style="display:flex;gap:4px;margin-top:.6rem"><button class="btn btn-xs" style="background:var(--navy);color:#fff;flex:1" onclick="openPD(this.closest(&#39;.pcard&#39;).dataset.num)">📊 تفاصيل</button><button class="btn btn-xs btn-outline" style="flex:1" onclick="editProj(this.closest(&#39;.pcard&#39;).dataset.num)">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff" onclick="delProj(this.closest(&#39;.pcard&#39;).dataset.num)">🗑️</button></div></div></div></div>
         <div>
           <div class="sec-hd"><h2>آخر الأحداث</h2></div>
-          <div class="card" style="padding:1rem;margin-bottom:.9rem"><div class="tl" id="dash-tl"><div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-06-04 · PROJ-001</div><div class="tl-title">ايجار المكتب الربع الأول لعام من تاريخ 02-06-2026</div><div class="tl-sub" style="color:var(--red)">4,003.00 ر.س</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-06-03 · PROJ-003</div><div class="tl-title">محمود مقاول بلاط المسبح بالقصر</div><div class="tl-sub" style="color:var(--red)">1,000.00 ر.س</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-06-03 · PROJ-003</div><div class="tl-title">مختار مقاول القصر جديد</div><div class="tl-sub" style="color:var(--red)">7,000.00 ر.س</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-06-03 · PROJ-003</div><div class="tl-title">دفعة لمقاول البلاط - القصر</div><div class="tl-sub" style="color:var(--red)">6,000.00 ر.س</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-06-01 · PROJ-003</div><div class="tl-title">مصاريف المكتب  من عامل نظافة + كهرباء + انترنت</div><div class="tl-sub" style="color:var(--red)">485.00 ر.س</div></div><div class="tl-item"><div class="tl-dot"></div><div class="tl-date">2026-06-01 · PROJ-003</div><div class="tl-title">حساب هيفاء</div><div class="tl-sub" style="color:var(--red)">1,500.00 ر.س</div></div></div></div>
+          <div class="card" style="padding:1rem;margin-bottom:.9rem"><div class="tl" id="dash-tl"><div class="empty" style="padding:.5rem"><p>لا أحداث</p></div></div></div>
           <div class="sec-hd"><h2>التنبيهات</h2></div>
           <div id="dash-alerts"><div class="card" style="padding:.7rem;text-align:center;color:var(--muted);font-size:.78rem">✅ لا تنبيهات</div></div>
         </div>
@@ -506,6 +531,17 @@ tbody tr:hover td{background:#faf8f4;}
       </div>
     </div>
 
+
+    <!-- AUDIT LOG -->
+    <div class="pg" id="pg-audit">
+      <div class="sec-hd"><h2>سجل التعديلات</h2><button class="btn btn-ghost btn-sm" onclick="AUDIT_LOG=[];localStorage.removeItem(&#39;bv2_audit&#39;);renderAudit()">مسح</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>التاريخ</th><th>المستخدم</th><th>الاجراء</th><th>القسم</th><th>التفاصيل</th></tr></thead><tbody id="audit-body"></tbody></table></div>
+    </div>
+    <!-- USERS -->
+    <div class="pg" id="pg-users">
+      <div class="sec-hd"><h2>ادارة المستخدمين</h2><button class="btn btn-gold btn-sm" onclick="openAddUser()">+ مستخدم</button></div>
+      <div class="tbl-wrap"><table><thead><tr><th>الاسم</th><th>اسم الدخول</th><th>الدور</th><th></th></tr></thead><tbody id="users-body"></tbody></table></div>
+    </div>
   </div><!-- end content -->
 </div><!-- end main -->
 <!-- شريط الجوال -->
@@ -518,21 +554,16 @@ tbody tr:hover td{background:#faf8f4;}
 </nav>
 
 <!-- MODALS -->
-<div class="ov" id="m-addProject"><div class="modal modal-lg"><div class="mhd"><h3>🏗️ مشروع جديد</h3><button class="xbtn" onclick="closeM(&#39;addProject&#39;)">✕</button></div><div style="background:#f0f9ff;border:2px dashed #3b82f6;border-radius:10px;padding:1rem;margin-bottom:1rem;text-align:center">
-  <div style="font-size:.85rem;font-weight:700;color:#1d4ed8;margin-bottom:.5rem">🤖 استخراج البيانات من العقد تلقائياً</div>
-  <label for="pdf-upload" style="cursor:pointer">
-    <div style="background:#1d4ed8;color:#fff;padding:8px 16px;border-radius:7px;display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:700">
-      📄 ارفع ملف العقد PDF
-    </div>
-  </label>
-  <input type="file" id="pdf-upload" accept=".pdf" style="display:none" onchange="extractFromPDF(this)">
-  <div id="pdf-status" style="font-size:.75rem;color:#6b7280;margin-top:.5rem"></div>
+<div class="ov" id="m-addProject"><div class="modal modal-lg"><div class="mhd"><h3>🏗️ مشروع جديد</h3><button class="xbtn" onclick="closeM(&#39;addProject&#39;)">✕</button></div>
 </div>
-<div class="fgrid"><div class="fg"><label>رقم المشروع *</label><input id="pj-num" placeholder="2024-001"></div><div class="fg"><label>اسم المشروع *</label><input id="pj-name"></div><div class="fg"><label>المالك / العميل</label><input id="pj-client"></div><div class="fg"><label>الاستشاري</label><input id="pj-consult"></div><div class="fg"><label>نوع المشروع</label><select id="pj-type"><option>مباني سكنية</option><option>مباني تجارية</option><option>بنية تحتية</option><option>تشطيبات</option><option>ترميم</option><option>صيانة</option><option>أخرى</option></select></div><div class="fg"><label>الموقع</label><input id="pj-loc"></div><div class="fg"><label>قيمة العقد (ر.س)</label><input type="number" id="pj-val" step="0.01"></div><div class="fg"><label>الميزانية المخططة (ر.س)</label><input type="number" id="pj-budget" step="0.01"></div><div class="fg"><label>الحالة</label><select id="pj-status"><option value="active">نشط</option><option value="pending">قيد التنفيذ</option><option value="done">منتهي</option><option value="suspended">موقوف</option></select></div><div class="fg"><label>المرحلة الحالية</label><input id="pj-phase" placeholder="حفريات / هيكل..."></div><div class="fg"><label>تاريخ البدء المخطط</label><input type="date" id="pj-start"></div><div class="fg"><label>تاريخ الانتهاء المخطط</label><input type="date" id="pj-end"></div><div class="fg"><label>تاريخ البدء الفعلي</label><input type="date" id="pj-astart"></div><div class="fg"><label>نسبة الإنجاز %</label><input type="number" id="pj-prog" min="0" max="100" value="0"></div><div class="fg full"><label>ملاحظات</label><textarea id="pj-notes"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addProject&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addProject()">💾 حفظ</button></div></div></div>
+<div class="fgrid"><div class="fg"><label>رقم المشروع *</label><input id="pj-num" placeholder="2024-001"></div><div class="fg"><label>اسم المشروع *</label><input id="pj-name"></div><div class="fg"><label>المالك / العميل</label><input id="pj-client"></div><div class="fg"><label>الاستشاري</label><input id="pj-consult"></div><div class="fg"><label>نوع المشروع</label><select id="pj-type"><option>مباني سكنية</option><option>مباني تجارية</option><option>بنية تحتية</option><option>تشطيبات</option><option>ترميم</option><option>صيانة</option><option>أخرى</option></select></div><div class="fg"><label>الموقع</label><input id="pj-loc"></div><div class="fg"><label>قيمة العقد (ر.س)</label><input type="number" id="pj-val" step="0.01"></div><div class="fg"><label>الميزانية المخططة (ر.س)</label><input type="number" id="pj-budget" step="0.01"></div><div class="fg"><label>الحالة</label><select id="pj-status"><option value="active">نشط</option><option value="pending">قيد التنفيذ</option><option value="done">منتهي</option><option value="suspended">موقوف</option></select></div><div class="fg"><label>المرحلة الحالية</label><input id="pj-phase" placeholder="حفريات / هيكل..."></div><div class="fg"><label>تاريخ البدء المخطط</label><input type="date" id="pj-start"></div><div class="fg"><label>تاريخ الانتهاء المخطط</label><input type="date" id="pj-end"></div><div class="fg"><label>تاريخ البدء الفعلي</label><input type="date" id="pj-astart"></div><div class="fg"><label>نسبة الإنجاز %</label><input type="number" id="pj-prog" min="0" max="100" value="0"></div><div class="fg full"><label>ملاحظات</label><textarea id="pj-notes"></textarea></div>
+<div class="fg full"><label>الموردين المرتبطون بالمشروع</label><div id="pj-sup-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px"></div><select id="pj-sup-add" onchange="addProjSup()" style="padding:7px;border:1.5px solid var(--border);border-radius:7px;font-family:Cairo,sans-serif;font-size:.75rem"><option value="">+ ربط مورد...</option></select></div>
+<div class="fg full"><label>المقاولون الباطن المرتبطون بالمشروع</label><div id="pj-sub-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px"></div><select id="pj-sub-add" onchange="addProjSub()" style="padding:7px;border:1.5px solid var(--border);border-radius:7px;font-family:Cairo,sans-serif;font-size:.75rem"><option value="">+ ربط مقاول باطن...</option></select></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addProject&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addProject()">💾 حفظ</button></div></div></div>
 
 <div class="ov" id="m-addActivity"><div class="modal"><div class="mhd"><h3>📊 نشاط جديد</h3><button class="xbtn" onclick="closeM(&#39;addActivity&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>المشروع *</label><select id="act-proj"></select></div><div class="fg"><label>اسم النشاط *</label><input id="act-name"></div><div class="fg"><label>المسؤول</label><input id="act-resp"></div><div class="fg"><label>المسار الحرج</label><select id="act-crit"><option value="0">لا</option><option value="1">نعم ⭐</option></select></div><div class="fg"><label>البداية المخططة</label><input type="date" id="act-ps"></div><div class="fg"><label>النهاية المخططة</label><input type="date" id="act-pe"></div><div class="fg"><label>البداية الفعلية</label><input type="date" id="act-as"></div><div class="fg"><label>نسبة الإنجاز %</label><input type="number" id="act-prog" min="0" max="100" value="0"></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addActivity&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addActivity()">💾 حفظ</button></div></div></div>
 
-<div class="ov" id="m-addDaily"><div class="modal"><div class="mhd"><h3>📝 قيد يومي</h3><button class="xbtn" onclick="closeM(&#39;addDaily&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>التاريخ *</label><input type="date" id="dy-date"></div><div class="fg"><label>المشروع *</label><select id="dy-proj"></select></div><div class="fg full"><label>البيان *</label><input id="dy-desc"></div><div class="fg"><label>نوع المصروف</label><select id="dy-type"><option value="materials">🧱 مواد</option><option value="labor">👷 عمالة</option><option value="housing">🏠 سكن</option><option value="transport">🚚 نقل</option><option value="tools">🔧 عهد وأدوات</option><option value="sub">👷 مقاول باطن</option><option value="admin">📌 مصاريف إدارية</option><option value="other">📌 أخرى</option></select></div><div class="fg"><label>طريقة الدفع</label><select id="dy-pay"><option value="transfer">تحويل بنكي</option><option value="cash">نقدي</option><option value="check">شيك</option><option value="credit">آجل</option></select></div><div class="fg"><label>المبلغ (ر.س) *</label><input type="number" id="dy-amt" step="0.01"></div><div class="fg full"><label>ملاحظات</label><textarea id="dy-notes"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addDaily&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addDaily()">💾 حفظ</button></div></div></div>
+<div class="ov" id="m-addDaily"><div class="modal"><div class="mhd"><h3>📝 قيد يومي</h3><button class="xbtn" onclick="closeM(&#39;addDaily&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>التاريخ *</label><input type="date" id="dy-date"></div><div class="fg"><label>المشروع *</label><select id="dy-proj"></select></div><div class="fg full"><label>البيان *</label><input id="dy-desc" list="dy-sup-list-dl"><datalist id="dy-sup-list-dl"></datalist></div>
+<div class="fg"><label>المورد / المقاول (اختياري)</label><select id="dy-party" onchange="if(this.value){document.getElementById(&quot;dy-desc&quot;).value=this.value;} style=" padding:8px="" 10px;border:1.5px="" solid="" var(--border);border-radius:7px;font-family:cairo,sans-serif;font-size:.78rem;background:#faf8f4"=""><option value="">-- اختر من القائمة --</option></select></div><div class="fg"><label>نوع المصروف</label><select id="dy-type"><option value="materials">🧱 مواد</option><option value="labor">👷 عمالة</option><option value="housing">🏠 سكن</option><option value="transport">🚚 نقل</option><option value="tools">🔧 عهد وأدوات</option><option value="sub">👷 مقاول باطن</option><option value="admin">📌 مصاريف إدارية</option><option value="other">📌 أخرى</option></select></div><div class="fg"><label>طريقة الدفع</label><select id="dy-pay"><option value="transfer">تحويل بنكي</option><option value="cash">نقدي</option><option value="check">شيك</option><option value="credit">آجل</option></select></div><div class="fg"><label>المبلغ (ر.س) *</label><input type="number" id="dy-amt" step="0.01"></div><div class="fg full"><label>ملاحظات</label><textarea id="dy-notes"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addDaily&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addDaily()">💾 حفظ</button></div></div></div>
 
 <div class="ov" id="m-addContract"><div class="modal"><div class="mhd"><h3>📋 قيد تعاقد</h3><button class="xbtn" onclick="closeM(&#39;addContract&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>التاريخ *</label><input type="date" id="ct-date"></div><div class="fg"><label>المشروع *</label><select id="ct-proj"></select></div><div class="fg full"><label>البيان *</label><input id="ct-desc"></div><div class="fg"><label>النوع</label><select id="ct-type"><option value="materials">🧱 مواد</option><option value="labor">👷 عمالة</option><option value="sub_contract">👷 مقاول باطن</option><option value="equipment">🔧 معدات</option><option value="other">📌 أخرى</option></select></div><div class="fg"><label>الطرف</label><input id="ct-party"></div><div class="fg"><label>المبلغ (ر.س) *</label><input type="number" id="ct-amt" step="0.01"></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addContract&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addContract()">💾 حفظ</button></div></div></div>
 
@@ -540,9 +571,9 @@ tbody tr:hover td{background:#faf8f4;}
 
 <div class="ov" id="m-addTx"><div class="modal"><div class="mhd"><h3>💵 حركة مالية</h3><button class="xbtn" onclick="closeM(&#39;addTx&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>التاريخ</label><input type="date" id="tx-date"></div><div class="fg"><label>المشروع</label><select id="tx-proj"></select></div><div class="fg full"><label>البيان *</label><input id="tx-desc"></div><div class="fg"><label>التصنيف</label><select id="tx-cat"><option>مستخلص</option><option>دفعة مقدمة</option><option>فاتورة مورد</option><option>رواتب</option><option>معدات</option><option>مصاريف إدارية</option><option>أخرى</option></select></div><div class="fg"><label>النوع</label><select id="tx-type"><option value="in">⬆️ وارد</option><option value="out">⬇️ صادر</option></select></div><div class="fg"><label>المبلغ (ر.س) *</label><input type="number" id="tx-amt" step="0.01"></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addTx&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addTx()">💾 حفظ</button></div></div></div>
 
-<div class="ov" id="m-addSupplier"><div class="modal"><div class="mhd"><h3>🚚 مورد جديد</h3><button class="xbtn" onclick="closeM(&#39;addSupplier&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>الاسم *</label><input id="sup-name"></div><div class="fg"><label>التخصص</label><input id="sup-spec"></div><div class="fg"><label>الهاتف</label><input id="sup-phone"></div><div class="fg"><label>البريد</label><input id="sup-email"></div><div class="fg"><label>السجل التجاري</label><input id="sup-cr"></div><div class="fg"><label>التقييم</label><select id="sup-rating"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3" selected="">★★★</option><option value="2">★★</option><option value="1">★</option></select></div><div class="fg full"><label>ملاحظات</label><textarea id="sup-notes"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addSupplier&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addSupplier()">💾 حفظ</button></div></div></div>
+<div class="ov" id="m-addSupplier"><div class="modal"><div class="mhd"><h3>🚚 مورد جديد</h3><button class="xbtn" onclick="closeM(&#39;addSupplier&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>الاسم *</label><input id="sup-name"></div><div class="fg"><label>التخصص</label><div id="sup-spec-wrap"></div></div><div class="fg"><label>الهاتف</label><input id="sup-phone"></div><div class="fg"><label>البريد</label><input id="sup-email"></div><div class="fg"><label>السجل التجاري</label><input id="sup-cr"></div><div class="fg"><label>التقييم</label><select id="sup-rating"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3" selected="">★★★</option><option value="2">★★</option><option value="1">★</option></select></div><div class="fg full"><label>ملاحظات</label><textarea id="sup-notes"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addSupplier&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addSupplier()">💾 حفظ</button></div></div></div>
 
-<div class="ov" id="m-addSub"><div class="modal"><div class="mhd"><h3>👷 مقاول باطن جديد</h3><button class="xbtn" onclick="closeM(&#39;addSub&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>الاسم *</label><input id="sub-name"></div><div class="fg"><label>التخصص</label><input id="sub-spec"></div><div class="fg"><label>الهاتف</label><input id="sub-phone"></div><div class="fg"><label>السجل التجاري</label><input id="sub-cr"></div><div class="fg"><label>التقييم</label><select id="sub-rating"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3" selected="">★★★</option><option value="2">★★</option><option value="1">★</option></select></div><div class="fg"><label>الحالة</label><select id="sub-status"><option value="active">نشط</option><option value="inactive">غير نشط</option></select></div><div class="fg full"><label>ملاحظات</label><textarea id="sub-notes"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addSub&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addSub()">💾 حفظ</button></div></div></div>
+<div class="ov" id="m-addSub"><div class="modal"><div class="mhd"><h3>👷 مقاول باطن جديد</h3><button class="xbtn" onclick="closeM(&#39;addSub&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>الاسم *</label><input id="sub-name"></div><div class="fg"><label>التخصص</label><div id="sub-spec-wrap"></div></div><div class="fg"><label>الهاتف</label><input id="sub-phone"></div><div class="fg"><label>السجل التجاري</label><input id="sub-cr"></div><div class="fg"><label>التقييم</label><select id="sub-rating"><option value="5">★★★★★</option><option value="4">★★★★</option><option value="3" selected="">★★★</option><option value="2">★★</option><option value="1">★</option></select></div><div class="fg"><label>الحالة</label><select id="sub-status"><option value="active">نشط</option><option value="inactive">غير نشط</option></select></div><div class="fg full"><label>ملاحظات</label><textarea id="sub-notes"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addSub&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addSub()">💾 حفظ</button></div></div></div>
 
 <div class="ov" id="m-addRFQ"><div class="modal"><div class="mhd"><h3>📋 طلب تسعير</h3><button class="xbtn" onclick="closeM(&#39;addRFQ&#39;)">✕</button></div><div class="fgrid"><div class="fg"><label>المشروع *</label><select id="rfq-proj"></select></div><div class="fg"><label>النوع</label><select id="rfq-type"><option value="materials">🧱 مواد</option><option value="subcontractor">👷 مقاول</option><option value="equipment">🔧 معدات</option></select></div><div class="fg"><label>تاريخ الطلب</label><input type="date" id="rfq-date"></div><div class="fg"><label>آخر موعد للرد</label><input type="date" id="rfq-deadline"></div><div class="fg full"><label>وصف الطلب</label><textarea id="rfq-desc"></textarea></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addRFQ&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addRFQ()">📤 إرسال</button></div></div></div>
 
@@ -676,7 +707,7 @@ function goPage(id){
   var gs2=document.getElementById('gsearch');
   if(gs2)gs2.value='';
   document.getElementById('sidebar').classList.remove('open');
-  var renders={dashboard:renderDashboard,alerts:renderAlerts,projects:renderProjects,gantt:renderGantt,daily:renderDaily,contracts:renderContracts,extracts:renderExtracts,costs:renderCosts,sales:renderSales,purchases:renderPurchases,pnl:renderPnl,finance:renderFinance,cashflow:renderCashflow,budget:renderBudget,suppliers:renderSuppliers,subs:renderSubs,rfq:renderRFQ,inventory:renderInventory,tools:renderTools,workers:renderWorkers,payroll:renderPayroll,vehicles:renderVehicles,documents:renderDocs,correspondence:renderCorr,reports:renderReportSel,settings:renderSettings,backup:function(){}};
+  var renders={dashboard:renderDashboard,alerts:renderAlerts,projects:renderProjects,gantt:renderGantt,daily:renderDaily,contracts:renderContracts,extracts:renderExtracts,costs:renderCosts,sales:renderSales,purchases:renderPurchases,pnl:renderPnl,finance:renderFinance,cashflow:renderCashflow,budget:renderBudget,suppliers:renderSuppliers,subs:renderSubs,rfq:renderRFQ,inventory:renderInventory,tools:renderTools,workers:renderWorkers,payroll:renderPayroll,vehicles:renderVehicles,documents:renderDocs,correspondence:renderCorr,reports:renderReportSel,settings:renderSettings,backup:function(){},audit:renderAudit,users:renderUsers};
   if(renders[id])renders[id]();
 }
 
@@ -693,9 +724,20 @@ function openM(id,extra){
   var fis=function(sid){var el2=document.getElementById(sid);if(!el2)return;el2.innerHTML=DB.inventory.map(function(i){return'<option value="'+i.item_code+'">'+i.item_code+' — '+i.name+' ('+fn(i.qty)+' '+i.unit+')</option>';}).join('');};
   var fts=function(sid){var el2=document.getElementById(sid);if(!el2)return;el2.innerHTML=DB.tools.map(function(t2){return'<option value="'+(t2.id||t2.name)+'">'+t2.name+' (متاح: '+t2.available_qty+')</option>';}).join('');};
   var fss=function(sid){var el2=document.getElementById(sid);if(!el2)return;el2.innerHTML='<option value="">— اختر —</option>'+DB.subs.map(function(s){return'<option value="'+(s.id||s.name)+'">'+s.name+'</option>';}).join('');};
-  if(id==='addProject'){sv('pj-start',t);}
+  if(id==='addProject'){sv('pj-start',t);_projSupList=[];_projSubList=[];setTimeout(function(){initProjLinks();},50);}
   if(id==='addActivity'){fps('act-proj');sv('act-ps',t);}
-  if(id==='addDaily'){sv('dy-date',t);fps('dy-proj');}
+  if(id==='addDaily'){sv('dy-date',t);fps('dy-proj');
+  var dp=document.getElementById('dy-party');
+  if(dp){
+    var opts='<option value="">-- اختر من القائمة --</option>';
+    opts+='<optgroup label="الموردون">';
+    DB.suppliers.forEach(function(s){opts+='<option value="'+s.name+'">'+s.name+(s.specialty?' ('+s.specialty+')':'')+'</option>';});
+    opts+='</optgroup><optgroup label="المقاولون الباطن">';
+    DB.subs.forEach(function(s){opts+='<option value="'+s.name+'">'+s.name+(s.specialty?' ('+s.specialty+')':'')+'</option>';});
+    opts+='</optgroup>';
+    dp.innerHTML=opts;
+  }
+}
   if(id==='addContract'){sv('ct-date',t);fps('ct-proj');}
   if(id==='addExtract'){sv('ex-date',t);fps('ex-proj');fss('ex-sub-sel');var isOwner=extra!=='sub';document.getElementById('ex-sub-row').style.display=isOwner?'none':'block';document.getElementById('ex-m-title').textContent=isOwner?'💰 مستخلص مالك':'👷 مستخلص مقاول';document.getElementById('ex-type').value=isOwner?'owner':'sub';}
   if(id==='addTx'){sv('tx-date',t);fps('tx-proj',true);}
@@ -709,7 +751,16 @@ function openM(id,extra){
   if(id==='addDoc'){sv('doc-date',t);fps('doc-proj',true);}
   if(id==='addCorr'){sv('corr-date',t);fps('corr-proj',true);}
   if(id==='addSale'){sv('sl-date',t);fps('sl-proj');}
-  if(id==='addPurchase'){sv('pu-date',t);fps('pu-proj',true);}
+  if(id==='addSupplier'){setTimeout(function(){var sw=document.getElementById('sup-spec-wrap');if(sw)sw.innerHTML=getSpecialtySelect('sup-spec','');},50);}
+  if(id==='addSub'){setTimeout(function(){var sw2=document.getElementById('sub-spec-wrap');if(sw2)sw2.innerHTML=getSpecialtySelect('sub-spec','');},50);}
+  if(id==='addPurchase'){sv('pu-date',t);fps('pu-proj',true);
+  var puSup=document.getElementById('pu-sup');
+  if(puSup){
+    var puOpts='<option value="">-- اختر مورد --</option>';
+    DB.suppliers.forEach(function(s){puOpts+='<option value="'+s.name+'">'+s.name+(s.specialty?' - '+s.specialty:'')+'</option>';});
+    puSup.innerHTML=puOpts;
+  }
+}
   el.classList.add('open');
 }
 function closeM(id){var el=document.getElementById('m-'+id);if(el)el.classList.remove('open');}
@@ -723,7 +774,7 @@ document.addEventListener('click',function(e){
 function addProject(){
   var num=gv('pj-num'),name=gv('pj-name');
   if(!num||!name){alert('أدخل رقم واسم المشروع');return;}
-  var obj={num:num,name:name,client:gv('pj-client'),consultant:gv('pj-consult'),type:gv('pj-type'),location:gv('pj-loc'),contract_value:gs('pj-val'),budget:gs('pj-budget'),status:gv('pj-status'),phase:gv('pj-phase'),start_date:gd('pj-start')||null,end_date:gd('pj-end')||null,actual_start:gd('pj-astart')||null,progress:gs('pj-prog'),notes:gv('pj-notes')};
+  var obj={num:num,name:name,client:gv('pj-client'),consultant:gv('pj-consult'),type:gv('pj-type'),location:gv('pj-loc'),contract_value:gs('pj-val'),budget:gs('pj-budget'),status:gv('pj-status'),phase:gv('pj-phase'),start_date:gd('pj-start')||null,end_date:gd('pj-end')||null,actual_start:gd('pj-astart')||null,progress:gs('pj-prog'),notes:gv('pj-notes'),linked_suppliers:[].concat(_projSupList),linked_subs:[].concat(_projSubList)};
   DB.projects.unshift(obj);save();closeM('addProject');cloudSave('projects',obj);refreshAll();
 }
 function addActivity(){
@@ -1037,10 +1088,47 @@ function renderBudget(){
   document.getElementById('bud-analysis').innerHTML=[['قيمة العقود',fm(tC),'var(--blue)'],['الميزانية',fm(tB),'var(--purple)'],['إجمالي الصرف',fm(tOut),'var(--red)'],['المحصّل',fm(col),'var(--green)'],['الفائض/العجز',fm(bal),bal>=0?'var(--green)':'var(--red)']].map(function(r){return'<div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:.78rem;color:var(--muted)">'+r[0]+'</span><span style="font-weight:800;color:'+r[2]+'">'+r[1]+'</span></div>';}).join('');
 }
 
-function renderSuppliers(){document.getElementById('sup-grid').innerHTML=DB.suppliers.length?DB.suppliers.map(function(s,i){return'<div class="card c-gold"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><div style="font-weight:800;color:var(--navy)">🚚 '+s.name+'</div><span class="bdg '+(s.status==='active'?'bg-green':'bg-gray')+'">'+(s.status==='active'?'نشط':'موقوف')+'</span></div><div style="font-size:.72rem;color:var(--blue);margin-bottom:.3rem">'+(s.specialty||'—')+'</div><div style="color:var(--gold);margin-bottom:.3rem">'+st(s.rating||3)+'</div><div style="font-size:.71rem;color:var(--muted)">'+(s.phone?'📞 '+s.phone:'')+'</div><button class="btn btn-xs" style="background:var(--blue);color:#fff;margin-top:.5rem" onclick="editSup('+i+')">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff;margin-top:.5rem" onclick="delSup('+i+')">🗑️</button></div>';}).join(''):'<div class="empty" style="grid-column:1/-1"><div class="ei">🚚</div><p>لا موردين</p></div>';}
+function renderSuppliers(){
+  var sf=document.getElementById('sup-spec-filter');
+  if(sf){
+    var specs=[];
+    DB.suppliers.forEach(function(s){if(s.specialty&&specs.indexOf(s.specialty)<0)specs.push(s.specialty);});
+    var curVal=sf.value;
+    sf.innerHTML='<option value="">كل التخصصات</option>'+specs.map(function(s){return'<option value="'+s+'">'+s+'</option>';}).join('');
+    sf.value=curVal;
+  }
+  var specF=sf?sf.value:'';
+  var list=specF?DB.suppliers.filter(function(s){return s.specialty===specF;}):DB.suppliers;
+  document.getElementById('sup-grid').innerHTML=list.length?list.map(function(s,i){
+    var si=DB.suppliers.indexOf(s);
+    return '<div class="card c-gold">'
+      +'<div style="display:flex;justify-content:space-between;margin-bottom:.5rem">'
+      +'<div style="font-weight:800;color:var(--navy)">&#128666; '+s.name+'</div>'
+      +'<span class="bdg '+(s.status==='active'?'bg-green':'bg-gray')+'">'+(s.status==='active'?'نشط':'موقوف')+'</span>'
+      +'</div>'
+      +'<div style="font-size:.72rem;color:var(--blue);margin-bottom:.3rem">'+(s.specialty||'&#8212;')+'</div>'
+      +'<div style="color:var(--gold);margin-bottom:.3rem">'+st(s.rating||3)+'</div>'
+      +'<div style="font-size:.71rem;color:var(--muted)">'+(s.phone?'&#128222; '+s.phone:'')+'</div>'
+      +'<div style="display:flex;gap:4px;margin-top:.5rem">'
+      +'<button class="btn btn-xs" style="background:var(--blue);color:#fff" onclick="editSup('+si+')">&#9999;</button>'
+      +'<button class="btn btn-xs" style="background:var(--red);color:#fff" onclick="delSup('+si+')">&#128465;</button>'
+      +'<button class="btn btn-xs" style="background:var(--teal);color:#fff" onclick="openSupStatement(DB.suppliers['+si+'].name)">كشف</button>'
+      +'</div></div>';
+  }).join(''):'<div class="empty" style="grid-column:1/-1"><div class="ei">&#128666;</div><p>لا موردين</p></div>';
+}
 function delSup(i){if(!confirm('حذف؟'))return;var s=DB.suppliers[i];if(s&&s.id)sbDel('suppliers',s.id);DB.suppliers.splice(i,1);save();renderSuppliers();}
 
-function renderSubs(){document.getElementById('subs-grid').innerHTML=DB.subs.length?DB.subs.map(function(s,i){return'<div class="card c-blue"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><div style="font-weight:800;color:var(--navy)">👷 '+s.name+'</div><span class="bdg '+(s.status==='active'?'bg-green':'bg-gray')+'">'+(s.status==='active'?'نشط':'غير نشط')+'</span></div><div style="font-size:.72rem;color:var(--blue);margin-bottom:.3rem">'+(s.specialty||'—')+'</div><div style="color:var(--gold);margin-bottom:.3rem">'+st(s.rating||3)+'</div><div style="font-size:.71rem;color:var(--muted)">'+(s.phone?'📞 '+s.phone:'')+'</div><button class="btn btn-xs" style="background:var(--blue);color:#fff;margin-top:.5rem" onclick="editSub('+i+')">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff;margin-top:.5rem" onclick="delSub2('+i+')">🗑️</button></div>';}).join(''):'<div class="empty" style="grid-column:1/-1"><div class="ei">👷</div><p>لا مقاولين</p></div>';}
+function renderSubs(){
+  var sf=document.getElementById('sub-spec-filter');
+  if(sf){
+    var specs=[...new Set(DB.subs.map(function(s){return s.specialty;}).filter(Boolean))];
+    var curVal=sf.value;
+    sf.innerHTML='<option value="">كل التخصصات</option>'+specs.map(function(s){return'<option value="'+s+'">'+s+'</option>';}).join('');
+    sf.value=curVal;
+  }
+  var specF=sf?sf.value:'';
+  var list=specF?DB.subs.filter(function(s){return s.specialty===specF;}):DB.subs;
+  document.getElementById('subs-grid').innerHTML=list.length?list.map(function(s,i){return'<div class="card c-blue"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><div style="font-weight:800;color:var(--navy)">👷 '+s.name+'</div><span class="bdg '+(s.status==='active'?'bg-green':'bg-gray')+'">'+(s.status==='active'?'نشط':'غير نشط')+'</span></div><div style="font-size:.72rem;color:var(--blue);margin-bottom:.3rem">'+(s.specialty||'—')+'</div><div style="color:var(--gold);margin-bottom:.3rem">'+st(s.rating||3)+'</div><div style="font-size:.71rem;color:var(--muted)">'+(s.phone?'📞 '+s.phone:'')+'</div><button class="btn btn-xs" style="background:var(--blue);color:#fff;margin-top:.5rem" onclick="editSub('+i+')">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff;margin-top:.5rem" onclick="delSub2('+i+')">🗑️</button></div>';}).join(''):'<div class="empty" style="grid-column:1/-1"><div class="ei">👷</div><p>لا مقاولين</p></div>';}
 function delSub2(i){if(!confirm('حذف؟'))return;var s=DB.subs[i];if(s&&s.id)sbDel('subcontractors',s.id);DB.subs.splice(i,1);save();renderSubs();}
 
 function renderRFQ(){var tM={materials:'🧱 مواد',subcontractor:'👷 مقاول',equipment:'🔧 معدات'};document.getElementById('rfq-body').innerHTML=DB.rfq.length?DB.rfq.map(function(r,i){return'<tr><td><strong>'+r.num+'</strong></td><td>'+r.project_id+'</td><td><span class="bdg bg-blue">'+(tM[r.rfq_type]||r.rfq_type)+'</span></td><td>'+(r.request_date||'—')+'</td><td>'+(r.deadline||'—')+'</td><td style="font-size:.73rem;color:var(--muted)">'+(r.description||'—')+'</td><td><span class="bdg bg-green">مُرسل</span></td><td><button class="btn btn-xs" style="background:var(--blue);color:#fff" onclick="editRFQ('+i+')">✏️</button><button class="btn btn-xs" style="background:var(--red);color:#fff" onclick="delRFQ('+i+')">🗑️</button></td></tr>';}).join(''):'<tr><td colspan="8" class="empty">لا طلبات</td></tr>';}
@@ -1183,7 +1271,17 @@ function pdTab(t,el){
   else if(t==='fin'){var sm={pending:['معلق','bg-orange'],partial:['جزئي','bg-blue'],collected:['محصّل','bg-green'],rejected:['مرفوض','bg-red']};body.innerHTML='<div class="krow" style="grid-template-columns:repeat(3,1fr);margin-bottom:1rem"><div class="kpi"><div class="kic" style="background:#dcfce7">⬆️</div><div><div class="kv pos" style="font-size:.85rem">'+fm(tin)+'</div><div class="kl">الوارد</div></div></div><div class="kpi"><div class="kic" style="background:#fee2e2">⬇️</div><div><div class="kv neg" style="font-size:.85rem">'+fm(tout)+'</div><div class="kl">الصادر</div></div></div><div class="kpi"><div class="kic" style="background:#fef3c7">💵</div><div><div class="kv '+(tin-tout>=0?'pos':'neg')+'" style="font-size:.85rem">'+fm(tin-tout)+'</div><div class="kl">الصافي</div></div></div></div><div class="tbl-wrap"><table><thead><tr><th>التاريخ</th><th>البيان</th><th>التصنيف</th><th>النوع</th><th>المبلغ</th></tr></thead><tbody>'+( tx.length?tx.map(function(x){return'<tr><td>'+(x.tx_date||'')+'</td><td>'+x.description+'</td><td><span class="bdg bg-gold">'+(x.category||'—')+'</span></td><td><span class="bdg '+(x.tx_type==='in'?'bg-green':'bg-red')+'">'+(x.tx_type==='in'?'⬆️':'⬇️')+'</span></td><td class="'+(x.tx_type==='in'?'amt-p':'amt-n')+'">'+fm(x.amount)+'</td></tr>';}).join(''):'<tr><td colspan="5" class="empty">لا حركات</td></tr>')+'</tbody></table></div>';}
   else if(t==='ex'){var exs=DB.extracts.filter(function(e){return e.project_id===p.num;});var sm2={pending:['معلق','bg-orange'],partial:['جزئي','bg-blue'],collected:['محصّل','bg-green'],rejected:['مرفوض','bg-red']};body.innerHTML='<div class="tbl-wrap"><table><thead><tr><th>#</th><th>النوع</th><th>القيمة</th><th>المحصّل</th><th>المتبقي</th><th>الحالة</th></tr></thead><tbody>'+(exs.length?exs.map(function(e){var s3=sm2[e.status]||['',''];return'<tr><td><strong>'+e.num+'</strong></td><td><span class="bdg '+(e.extract_type==='owner'?'bg-green':'bg-blue')+'">'+(e.extract_type==='owner'?'مالك':'مقاول')+'</span></td><td class="amt-p">'+fm(e.amount)+'</td><td class="amt-p">'+fm(e.collected)+'</td><td class="'+(e.amount-e.collected>0?'amt-n':'amt-p')+'">'+fm(e.amount-e.collected)+'</td><td><span class="bdg '+s3[1]+'">'+s3[0]+'</span></td></tr>';}).join(''):'<tr><td colspan="6" class="empty">لا مستخلصات</td></tr>')+'</tbody></table></div>';}
   else if(t==='dy'){var dl=DB.daily.filter(function(d){return d.project_id===p.num;});body.innerHTML='<div class="tbl-wrap"><table><thead><tr><th>التاريخ</th><th>البيان</th><th>المبلغ</th></tr></thead><tbody>'+(dl.length?dl.map(function(d){return'<tr><td>'+(d.entry_date||'')+'</td><td>'+d.description+'</td><td class="amt-n">'+fm(d.amount)+'</td></tr>';}).join(''):'<tr><td colspan="3" class="empty">لا قيود</td></tr>')+'</tbody></table></div>';}
-  else if(t==='gn'){var acts=DB.activities.filter(function(a){return a.project_id===p.num;});body.innerHTML='<div class="tbl-wrap" style="overflow-x:auto"><table><thead><tr><th>النشاط</th><th>البداية</th><th>النهاية</th><th>الإنجاز</th><th>حرج</th></tr></thead><tbody>'+(acts.length?acts.map(function(a){return'<tr><td>'+a.name+'</td><td>'+(a.planned_start||'—')+'</td><td>'+(a.planned_end||'—')+'</td><td><div class="pb" style="min-width:80px"><div class="pbf" style="width:'+(a.progress||0)+'%"></div></div></td><td>'+(a.is_critical?'⭐':'—')+'</td></tr>';}).join(''):'<tr><td colspan="5" class="empty">لا أنشطة</td></tr>')+'</tbody></table></div>';}
+  else if(t==='lk'){
+  var sups=(p.linked_suppliers||[]);
+  var subs=(p.linked_subs||[]);
+  var supDetails=sups.map(function(n){var s=DB.suppliers.find(function(x){return x.name===n;});return s?'<div class="card c-gold" style="padding:.8rem;margin-bottom:.5rem"><strong>🚚 '+s.name+'</strong><span class="bdg bg-blue" style="margin-right:.5rem">'+(s.specialty||'عام')+'</span>'+(s.phone?'<br><span style="font-size:.72rem;color:var(--muted)">📞 '+s.phone+'</span>':'')+'</div>':'';}).join('');
+  var subDetails=subs.map(function(n){var s=DB.subs.find(function(x){return x.name===n;});return s?'<div class="card c-blue" style="padding:.8rem;margin-bottom:.5rem"><strong>👷 '+s.name+'</strong><span class="bdg bg-purple" style="margin-right:.5rem">'+(s.specialty||'عام')+'</span>'+(s.phone?'<br><span style="font-size:.72rem;color:var(--muted)">📞 '+s.phone+'</span>':'')+'</div>':'';}).join('');
+  body.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1rem">'
+    +'<div><div style="font-weight:800;color:var(--navy);margin-bottom:.7rem">🚚 الموردون ('+sups.length+')</div>'+(supDetails||'<div class="empty" style="padding:1rem">لا موردون مرتبطون</div>')+'</div>'
+    +'<div><div style="font-weight:800;color:var(--navy);margin-bottom:.7rem">👷 المقاولون الباطن ('+subs.length+')</div>'+(subDetails||'<div class="empty" style="padding:1rem">لا مقاولون مرتبطون</div>')+'</div>'
+    +'</div>';
+}
+else if(t==='gn'){var acts=DB.activities.filter(function(a){return a.project_id===p.num;});body.innerHTML='<div class="tbl-wrap" style="overflow-x:auto"><table><thead><tr><th>النشاط</th><th>البداية</th><th>النهاية</th><th>الإنجاز</th><th>حرج</th></tr></thead><tbody>'+(acts.length?acts.map(function(a){return'<tr><td>'+a.name+'</td><td>'+(a.planned_start||'—')+'</td><td>'+(a.planned_end||'—')+'</td><td><div class="pb" style="min-width:80px"><div class="pbf" style="width:'+(a.progress||0)+'%"></div></div></td><td>'+(a.is_critical?'⭐':'—')+'</td></tr>';}).join(''):'<tr><td colspan="5" class="empty">لا أنشطة</td></tr>')+'</tbody></table></div>';}
 }
 
 // ══ SEARCH ══
@@ -1775,80 +1873,211 @@ function delSale(i){if(!confirm('حذف الفاتورة؟'))return;var s=DB.sal
 function delPurchase(i){if(!confirm('حذف الفاتورة؟'))return;var p=DB.purchases[i];if(p&&p.id)sbDel('purchase_invoices',p.id);DB.purchases.splice(i,1);save();renderPurchases();renderDashboard();}
 
 
-function extractFromPDF(input) {
-  var file = input.files[0];
-  if (!file) return;
-  var status = document.getElementById('pdf-status');
-  status.innerHTML = '⏳ جاري قراءة الملف...';
-  status.style.color = '#c8960c';
-  
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var base64 = e.target.result.split(',')[1];
-    status.innerHTML = '🤖 جاري تحليل العقد بالذكاء الاصطناعي...';
-    
-    fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': 'YOUR_API_KEY_HERE',
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            {
-              type: 'document',
-              source: { type: 'base64', media_type: 'application/pdf', data: base64 }
-            },
-            {
-              type: 'text',
-              text: 'استخرج من هذا العقد المعلومات التالية وأرجعها بصيغة JSON فقط بدون أي نص آخر:\n{\n  "num": "رقم العقد أو المشروع",\n  "name": "اسم المشروع",\n  "client": "اسم المالك أو العميل",\n  "consultant": "اسم الاستشاري إن وجد",\n  "type": "نوع المشروع",\n  "location": "موقع المشروع",\n  "contract_value": "قيمة العقد رقماً فقط بدون رمز العملة",\n  "start_date": "تاريخ البدء بصيغة YYYY-MM-DD",\n  "end_date": "تاريخ الانتهاء بصيغة YYYY-MM-DD",\n  "notes": "أي ملاحظات مهمة"\n}\nإذا لم تجد معلومة اتركها فارغة.'
-            }
-          ]
-        }]
-      })
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      try {
-        var text = data.content[0].text;
-        var clean = text.replace(/```json|```/g, '').trim();
-        var info = JSON.parse(clean);
-        
-        if (info.num) sv('pj-num', info.num);
-        if (info.name) sv('pj-name', info.name);
-        if (info.client) sv('pj-client', info.client);
-        if (info.consultant) sv('pj-consult', info.consultant);
-        if (info.location) sv('pj-loc', info.location);
-        if (info.contract_value) sv('pj-val', info.contract_value.toString().replace(/[^0-9.]/g,''));
-        if (info.start_date) sv('pj-start', info.start_date);
-        if (info.end_date) sv('pj-end', info.end_date);
-        if (info.notes) sv('pj-notes', info.notes);
-        
-        if (info.type) {
-          var typeMap = {'مباني سكنية':'مباني سكنية','سكني':'مباني سكنية','مباني تجارية':'مباني تجارية','تجاري':'مباني تجارية','بنية تحتية':'بنية تحتية','تشطيبات':'تشطيبات','ترميم':'ترميم','صيانة':'صيانة'};
-          var matched = Object.keys(typeMap).find(function(k) { return info.type.includes(k); });
-          if (matched) document.getElementById('pj-type').value = typeMap[matched];
-        }
-        
-        status.innerHTML = '✅ تم استخراج البيانات بنجاح! راجع الحقول وعدّلها إن لزم.';
-        status.style.color = '#15803d';
-      } catch(err) {
-        status.innerHTML = '⚠️ تم قراءة الملف لكن تعذر استخراج البيانات - أدخلها يدوياً';
-        status.style.color = '#c2410c';
-      }
-    })
-    .catch(function(err) {
-      status.innerHTML = '❌ خطأ في الاتصال - تحقق من الإنترنت';
-      status.style.color = '#b91c1c';
-      console.error(err);
-    });
-  };
-  reader.readAsDataURL(file);
+
+
+
+// ══ صلاحيات ══
+var USERS_DATA = JSON.parse(localStorage.getItem('bv2_users')||JSON.stringify([
+  {id:1,name:'مدير النظام',username:'admin',password:'admin123',role:'admin'},
+  {id:2,name:'محاسب',username:'accountant',password:'acc123',role:'accountant'},
+  {id:3,name:'مشرف',username:'supervisor',password:'sup123',role:'supervisor'}
+]));
+var CURRENT_USER = JSON.parse(localStorage.getItem('bv2_current_user')||'null');
+var AUDIT_LOG = JSON.parse(localStorage.getItem('bv2_audit')||'[]');
+
+function logAudit(action,entity,details){
+  AUDIT_LOG.unshift({id:Date.now(),date:new Date().toLocaleString('en-US'),
+    user:CURRENT_USER?CURRENT_USER.name:'نظام',action:action,entity:entity,details:details||''});
+  if(AUDIT_LOG.length>300)AUDIT_LOG.pop();
+  try{localStorage.setItem('bv2_audit',JSON.stringify(AUDIT_LOG));}catch(e){}
+}
+
+function checkLogin(){
+  if(!CURRENT_USER){
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('app-content').style.display='none';
+    return false;
+  }
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app-content').style.display='flex';
+  var n=document.getElementById('current-user-name');
+  var r=document.getElementById('current-user-role');
+  if(n)n.textContent=CURRENT_USER.name;
+  if(r)r.textContent=CURRENT_USER.role==='admin'?'مدير':CURRENT_USER.role==='accountant'?'محاسب':'مشرف';
+  return true;
+}
+
+function doLogin(){
+  var u=document.getElementById('login-user').value.trim();
+  var p=document.getElementById('login-pass').value;
+  var user=USERS_DATA.find(function(x){return x.username===u&&x.password===p;});
+  var err=document.getElementById('login-err');
+  if(!user){if(err)err.textContent='اسم المستخدم او كلمة المرور غير صحيحة';return;}
+  CURRENT_USER=user;
+  localStorage.setItem('bv2_current_user',JSON.stringify(user));
+  if(err)err.textContent='';
+  logAudit('دخول','النظام',user.name);
+  checkLogin();
+  loadCloud();
+}
+
+function doLogout(){
+  if(!confirm('تسجيل الخروج؟'))return;
+  logAudit('خروج','النظام',CURRENT_USER?CURRENT_USER.name:'');
+  CURRENT_USER=null;
+  localStorage.removeItem('bv2_current_user');
+  checkLogin();
+}
+
+function renderAudit(){
+  var el=document.getElementById('audit-body');
+  if(!el)return;
+  el.innerHTML=AUDIT_LOG.length?AUDIT_LOG.map(function(e){
+    return'<tr><td style="font-size:.72rem">'+e.date+'</td><td><strong>'+e.user+'</strong></td><td><span class="bdg bg-blue">'+e.action+'</span></td><td>'+e.entity+'</td><td style="font-size:.75rem;color:var(--muted)">'+e.details+'</td></tr>';
+  }).join(''):'<tr><td colspan="5" class="empty">لا سجلات</td></tr>';
+}
+
+function renderUsers(){
+  var el=document.getElementById('users-body');
+  if(!el)return;
+  var roleL={admin:'مدير',accountant:'محاسب',supervisor:'مشرف'};
+  el.innerHTML=USERS_DATA.map(function(u,i){
+    return'<tr><td><strong>'+u.name+'</strong></td><td>'+u.username+'</td><td><span class="bdg '+(u.role==='admin'?'bg-red':u.role==='accountant'?'bg-blue':'bg-green')+'">'+roleL[u.role]+'</span></td><td><button class="btn btn-xs btn-ghost" onclick="delUser('+i+')">حذف</button></td></tr>';
+  }).join('');
+}
+
+function openAddUser(){
+  var name=prompt('الاسم الكامل:');if(!name)return;
+  var uname=prompt('اسم الدخول:');if(!uname)return;
+  var pass=prompt('كلمة المرور:');if(!pass)return;
+  var role=prompt('الدور: admin او accountant او supervisor','supervisor');
+  if(!['admin','accountant','supervisor'].includes(role))role='supervisor';
+  USERS_DATA.push({id:Date.now(),name:name,username:uname,password:pass,role:role});
+  localStorage.setItem('bv2_users',JSON.stringify(USERS_DATA));
+  logAudit('اضافة مستخدم','المستخدمون',name);
+  renderUsers();
+  alert('تم اضافة المستخدم');
+}
+
+function delUser(i){
+  if(!USERS_DATA[i])return;
+  if(USERS_DATA.filter(function(u){return u.role==='admin';}).length<=1&&USERS_DATA[i].role==='admin'){alert('لا يمكن حذف آخر مدير');return;}
+  if(!confirm('حذف '+USERS_DATA[i].name+'؟'))return;
+  logAudit('حذف مستخدم','المستخدمون',USERS_DATA[i].name);
+  USERS_DATA.splice(i,1);
+  localStorage.setItem('bv2_users',JSON.stringify(USERS_DATA));
+  renderUsers();
+}
+
+function openSupStatement(supName){
+  var purchases=(DB.purchases||[]).filter(function(p){return p.supplier===supName;});
+  var totalInv=purchases.reduce(function(s,p){return s+Number(p.total||0);},0);
+  var totalPaid=purchases.reduce(function(s,p){return s+Number(p.paid||0);},0);
+  var balance=totalInv-totalPaid;
+  var cfg=DB.cfg||{};
+  var w=window.open('','_blank');
+  var html='<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>كشف حساب '+supName+'</title>';
+  html+='<style>body{font-family:Arial,sans-serif;padding:2rem;direction:rtl}table{width:100%;border-collapse:collapse;margin-top:1rem}th{background:#0d1f35;color:#fff;padding:8px;text-align:right}td{padding:8px;border-bottom:1px solid #eee}.sum{background:#f0fdf4;font-weight:900}</style></head><body>';
+  html+='<div style="display:flex;justify-content:space-between;border-bottom:3px double #0d1f35;padding-bottom:1rem;margin-bottom:1rem">';
+  html+='<div><div style="font-size:1.1rem;font-weight:900;color:#0d1f35">'+(cfg.ar||'بناء وعمارة للمقاولات')+'</div><div style="font-size:.75rem;color:#555">س.ت: '+(cfg.cr||'')+'</div></div>';
+  html+='<div style="text-align:center"><div style="font-size:1rem;font-weight:700;color:#1d4ed8">كشف حساب مورد</div><div style="font-size:1.2rem;font-weight:900">'+supName+'</div><div style="font-size:.75rem">'+new Date().toLocaleDateString('ar-SA')+'</div></div></div>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem">';
+  html+='<div style="background:#dbeafe;border-radius:8px;padding:.8rem;text-align:center"><div style="font-weight:900;color:#1d4ed8">'+totalInv.toLocaleString('en-US',{minimumFractionDigits:2})+'</div><div style="font-size:.75rem">اجمالي الفواتير</div></div>';
+  html+='<div style="background:#dcfce7;border-radius:8px;padding:.8rem;text-align:center"><div style="font-weight:900;color:#15803d">'+totalPaid.toLocaleString('en-US',{minimumFractionDigits:2})+'</div><div style="font-size:.75rem">المدفوع</div></div>';
+  html+='<div style="background:'+(balance>0?'#fee2e2':'#dcfce7')+';border-radius:8px;padding:.8rem;text-align:center"><div style="font-weight:900;color:'+(balance>0?'#b91c1c':'#15803d')+'">'+balance.toLocaleString('en-US',{minimumFractionDigits:2})+'</div><div style="font-size:.75rem">'+(balance>0?'المتبقي':'مسدد بالكامل')+'</div></div></div>';
+  if(purchases.length){
+    html+='<table><thead><tr><th>رقم الفاتورة</th><th>التاريخ</th><th>المشروع</th><th>البيان</th><th>الاجمالي</th><th>المدفوع</th><th>المتبقي</th><th>الحالة</th></tr></thead><tbody>';
+    purchases.forEach(function(p){var r=Number(p.total||0)-Number(p.paid||0);html+='<tr><td>'+p.num+'</td><td>'+(p.invoice_date||'-')+'</td><td>'+(p.project_id||'-')+'</td><td>'+(p.description||'-')+'</td><td>'+Number(p.total||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td style="color:green">'+Number(p.paid||0).toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td style="color:'+(r>0?'red':'green')+'">'+r.toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td>'+(p.status==='paid'?'مسدد':p.status==='partial'?'جزئي':'غير مسدد')+'</td></tr>';});
+    html+='<tr class="sum"><td colspan="4">الاجمالي</td><td>'+totalInv.toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td>'+totalPaid.toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td>'+balance.toLocaleString('en-US',{minimumFractionDigits:2})+'</td><td></td></tr></tbody></table>';
+  } else {html+='<p>لا فواتير لهذا المورد</p>';}
+  html+='<script>window.onload=function(){window.print();}<\/script></body></html>';
+  w.document.write(html);w.document.close();
+}
+
+
+// ══ تخصصات الموردين والمقاولين ══
+var SPECIALTIES = [
+  'حديد','خرسانة','بلك','جبس وأسقف مستعارة','دهانات','رمل','خشب',
+  'كهرباء','سباكة','تكييف','عزل','بلاط وسيراميك','ألمنيوم وزجاج',
+  'حفريات','نقل','معدات','مقاولات عامة','أخرى'
+];
+
+function getSpecialtySelect(id, selected){
+  var opts = '<option value="">-- اختر التخصص --</option>';
+  SPECIALTIES.forEach(function(s){
+    opts += '<option value="'+s+'"'+(s===selected?' selected':'')+'>'+s+'</option>';
+  });
+  opts += '<option value="__new__">+ إضافة تخصص جديد</option>';
+  return '<select id="'+id+'" onchange="checkNewSpec(this)" style="padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-family:Cairo,sans-serif;font-size:.78rem;background:#faf8f4;width:100%">'+opts+'</select>';
+}
+
+function checkNewSpec(el){
+  if(el.value==='__new__'){
+    var newSpec=prompt('أدخل التخصص الجديد:');
+    if(newSpec&&newSpec.trim()){
+      SPECIALTIES.splice(SPECIALTIES.length-1,0,newSpec.trim());
+      var cur=el.id;
+      el.outerHTML=getSpecialtySelect(cur,newSpec.trim());
+    } else {
+      el.value='';
+    }
+  }
+}
+
+
+// ══ ربط موردين/مقاولين بالمشروع ══
+var _projSupList = [];
+var _projSubList = [];
+
+function initProjLinks(){
+  // تعبئة قائمة الموردين
+  var supSel = document.getElementById('pj-sup-add');
+  if(supSel){
+    supSel.innerHTML = '<option value="">+ ربط مورد...</option>' +
+      DB.suppliers.map(function(s){return '<option value="'+s.name+'">'+s.name+' ('+( s.specialty||'عام')+')</option>';}).join('');
+  }
+  var subSel = document.getElementById('pj-sub-add');
+  if(subSel){
+    subSel.innerHTML = '<option value="">+ ربط مقاول باطن...</option>' +
+      DB.subs.map(function(s){return '<option value="'+s.name+'">'+s.name+' ('+( s.specialty||'عام')+')</option>';}).join('');
+  }
+  renderProjLinkTags('pj-sup-list', _projSupList, 'sup');
+  renderProjLinkTags('pj-sub-list', _projSubList, 'sub');
+}
+
+function renderProjLinkTags(elId, list, type){
+  var el = document.getElementById(elId);
+  if(!el) return;
+  var html='';
+  list.forEach(function(n,i){
+    html+='<span style="background:#dbeafe;color:#1e40af;padding:3px 10px;border-radius:20px;font-size:.72rem;display:inline-flex;align-items:center;gap:5px">'+n;
+    html+='<button onclick="_projRemoveLink(this)" data-t="'+type+'" data-i="'+i+'" style="background:none;border:none;cursor:pointer;color:#b91c1c;font-weight:900">x</button></span>';
+  });
+  el.innerHTML=html;
+}
+
+function _projRemoveLink(btn){
+  var type=btn.getAttribute('data-t');
+  var i=parseInt(btn.getAttribute('data-i'));
+  if(type==='sup') _projSupList.splice(i,1);
+  else _projSubList.splice(i,1);
+  renderProjLinkTags(type==='sup'?'pj-sup-list':'pj-sub-list', type==='sup'?_projSupList:_projSubList, type);
+}
+
+function addProjSup(){
+  var sel = document.getElementById('pj-sup-add');
+  if(!sel||!sel.value) return;
+  if(_projSupList.indexOf(sel.value)<0) _projSupList.push(sel.value);
+  sel.value = '';
+  renderProjLinkTags('pj-sup-list', _projSupList, 'sup');
+}
+
+function addProjSub(){
+  var sel = document.getElementById('pj-sub-add');
+  if(!sel||!sel.value) return;
+  if(_projSubList.indexOf(sel.value)<0) _projSubList.push(sel.value);
+  sel.value = '';
+  renderProjLinkTags('pj-sub-list', _projSubList, 'sub');
 }
 
 // ══ INIT ══
@@ -1866,8 +2095,9 @@ document.addEventListener('click',function(e){
 });
 renderPayroll();
 renderSettings();
-loadCloud();
+if(!checkLogin()){} else {loadCloud();}
 </script>
 
 
+<!-- end app-content -->
 </body></html>
