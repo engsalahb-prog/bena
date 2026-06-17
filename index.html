@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/ASUS/Downloads/index_12.html -->
+<!-- saved from url=(0045)file:///C:/Users/ASUS/Downloads/index_15.html -->
 <html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1367,7 +1367,7 @@ function exportCSV(type){var csv='',rows=[];if(type==='finance'){csv='\uFEFFال
 function editExtract(i){
   var e=DB.extracts[i];if(!e)return;
   sv('ex-num',e.num);sv('ex-val',e.amount);sv('ex-col',e.collected||0);sv('ex-ret',e.retention||0);
-  sv('ex-prog',e.progress_pct||0);sv('ex-date',e.period_from||'');sv('ex-notes',e.notes||'');
+  sv('ex-prog',e.progress_pct||0);sv('ex-from',e.period_from||'');sv('ex-to',e.period_to||'');sv('ex-date',e.submit_date||'');sv('ex-notes',e.notes||'');
   var ep=document.getElementById('ex-proj');
   if(ep)ep.innerHTML=DB.projects.map(function(p){return'<option value="'+p.num+'"'+(p.num===e.project_id?' selected':'')+'>'+p.num+' — '+p.name+'</option>';}).join('');
   var st=document.getElementById('ex-status');if(st)st.value=e.status||'pending';
@@ -1382,6 +1382,7 @@ function editExtract(i){
     e.num=gv('ex-num');e.project_id=gv('ex-proj');e.amount=gs('ex-val');
     e.collected=gs('ex-col');e.retention=gs('ex-ret');e.progress_pct=gs('ex-prog');
     e.status=gv('ex-status');e.notes=gv('ex-notes');
+    e.period_from=gd('ex-from')||e.period_from||null;e.period_to=gd('ex-to')||e.period_to||null;e.submit_date=gd('ex-date')||e.submit_date||null;
     var newCollected=Number(e.collected||0);
     var diff=newCollected-oldCollected;
     if(diff>0&&e.extract_type==='owner'){
