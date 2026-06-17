@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0038)https://engsalahb-prog.github.io/bena/ -->
+<!-- saved from url=(0044)file:///C:/Users/ASUS/Downloads/index_5.html -->
 <html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,10 +94,12 @@ tbody tr:hover td{background:#faf8f4;}
 .fgrid .full{grid-column:1/-1;}
 .factions{display:flex;gap:6px;justify-content:flex-end;margin-top:1rem;padding-top:.8rem;border-top:1px solid var(--border);}
 /* MODALS */
-.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:1rem;}
+.ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(13,31,53,.92);z-index:2000;align-items:center;justify-content:center;padding:1rem;box-sizing:border-box;overflow-y:auto;}
 .ov.open{display:flex;}
-.modal{background:#fff;border-radius:14px;padding:1.5rem;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;animation:su .22s ease;}
+.modal{background:#fff;border-radius:14px;padding:1.5rem;width:100%;max-width:640px;max-height:92vh;overflow-y:auto;animation:su .22s ease;position:relative;z-index:2001;margin:auto;box-sizing:border-box;}
 .modal-lg{max-width:860px;}
+.mhd{flex-wrap:nowrap;}
+.mhd h3{flex:1;min-width:0;}
 @keyframes su{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
 .mhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;}
 .mhd h3{font-size:.95rem;font-weight:900;color:var(--navy);}
@@ -553,9 +555,9 @@ tbody tr:hover td{background:#faf8f4;}
   <button class="mob-btn" onclick="goPage(&#39;finance&#39;);setMob(this)"><span>💵</span>المالية</button>
 </nav>
 
+</div><!-- end app-content -->
 <!-- MODALS -->
 <div class="ov" id="m-addProject"><div class="modal modal-lg"><div class="mhd"><h3>🏗️ مشروع جديد</h3><button class="xbtn" onclick="closeM(&#39;addProject&#39;)">✕</button></div>
-</div>
 <div class="fgrid"><div class="fg"><label>رقم المشروع *</label><input id="pj-num" placeholder="2024-001"></div><div class="fg"><label>اسم المشروع *</label><input id="pj-name"></div><div class="fg"><label>المالك / العميل</label><input id="pj-client"></div><div class="fg"><label>الاستشاري</label><input id="pj-consult"></div><div class="fg"><label>نوع المشروع</label><select id="pj-type"><option>مباني سكنية</option><option>مباني تجارية</option><option>بنية تحتية</option><option>تشطيبات</option><option>ترميم</option><option>صيانة</option><option>أخرى</option></select></div><div class="fg"><label>الموقع</label><input id="pj-loc"></div><div class="fg"><label>قيمة العقد (ر.س)</label><input type="number" id="pj-val" step="0.01"></div><div class="fg"><label>الميزانية المخططة (ر.س)</label><input type="number" id="pj-budget" step="0.01"></div><div class="fg"><label>الحالة</label><select id="pj-status"><option value="active">نشط</option><option value="pending">قيد التنفيذ</option><option value="done">منتهي</option><option value="suspended">موقوف</option></select></div><div class="fg"><label>المرحلة الحالية</label><input id="pj-phase" placeholder="حفريات / هيكل..."></div><div class="fg"><label>تاريخ البدء المخطط</label><input type="date" id="pj-start"></div><div class="fg"><label>تاريخ الانتهاء المخطط</label><input type="date" id="pj-end"></div><div class="fg"><label>تاريخ البدء الفعلي</label><input type="date" id="pj-astart"></div><div class="fg"><label>نسبة الإنجاز %</label><input type="number" id="pj-prog" min="0" max="100" value="0"></div><div class="fg full"><label>ملاحظات</label><textarea id="pj-notes"></textarea></div>
 <div class="fg full"><label>الموردين المرتبطون بالمشروع</label><div id="pj-sup-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px"></div><select id="pj-sup-add" onchange="addProjSup()" style="padding:7px;border:1.5px solid var(--border);border-radius:7px;font-family:Cairo,sans-serif;font-size:.75rem"><option value="">+ ربط مورد...</option></select></div>
 <div class="fg full"><label>المقاولون الباطن المرتبطون بالمشروع</label><div id="pj-sub-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px"></div><select id="pj-sub-add" onchange="addProjSub()" style="padding:7px;border:1.5px solid var(--border);border-radius:7px;font-family:Cairo,sans-serif;font-size:.75rem"><option value="">+ ربط مقاول باطن...</option></select></div></div><div class="factions"><button class="btn btn-outline" onclick="closeM(&#39;addProject&#39;)">إلغاء</button><button class="btn btn-navy" onclick="addProject()">💾 حفظ</button></div></div></div>
@@ -2099,6 +2101,5 @@ if(!checkLogin()){} else {loadCloud();}
 </script>
 
 
-<!-- end app-content -->
 
 </body></html>
