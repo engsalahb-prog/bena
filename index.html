@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0044)file:///C:/Users/ASUS/Downloads/index_5.html -->
+<!-- saved from url=(0044)file:///C:/Users/ASUS/Downloads/index_7.html -->
 <html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>بناء وعمارة للمقاولات v2</title>
-<link href="./index_files/css2" rel="stylesheet">
+<link href="./بناء وعمارة للمقاولات v2_files/css2" rel="stylesheet">
 <style>
 :root{--navy:#0d1f35;--gold:#c8960c;--green:#15803d;--red:#b91c1c;--blue:#1d4ed8;--purple:#6d28d9;--orange:#c2410c;--teal:#0d9488;--bg:#f0ece3;--card:#fff;--border:#ddd4c0;--muted:#6b7280;--sidebar:240px;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -171,7 +171,7 @@ tbody tr:hover td{background:#faf8f4;}
 .card-hd{font-weight:800;font-size:.83rem;color:var(--navy);margin-bottom:.8rem;padding:1rem 1rem .4rem;}
 .chart-box{padding:.5rem 1rem 1rem;}
 </style>
-<script src="./index_files/supabase-js@2"></script>
+<script src="./بناء وعمارة للمقاولات v2_files/supabase-js@2"></script>
 </head>
 <body>
 <!-- شاشة تسجيل الدخول -->
@@ -1742,20 +1742,51 @@ function printInvoice(type,i){
 function drawBars(canvasId,labels,values,colors){
   var canvas=document.getElementById(canvasId);
   if(!canvas)return;
-  var ctx=canvas.getContext('2d');
-  var W=canvas.width,H=canvas.height||200;
+  var parent=canvas.parentElement;
+  var cw=(parent&&parent.clientWidth)?parent.clientWidth:320;
+  var H=220;
+  canvas.width=cw;
   canvas.height=H;
+  canvas.style.width=cw+'px';
+  canvas.style.height=H+'px';
+  var ctx=canvas.getContext('2d');
+  var W=cw;
   ctx.clearRect(0,0,W,H);
   var max=Math.max.apply(null,values.map(Math.abs))||1;
-  var bW=Math.floor(W/(labels.length*2));
+  var n=labels.length;
+  var slot=W/n;
+  var bW=Math.min(slot*0.55,70);
+  var topPad=28, bottomPad=46;
+  var chartH=H-topPad-bottomPad;
   labels.forEach(function(l,i){
-    var v=values[i],h=Math.abs(v)/max*(H-40);
-    var x=i*(W/labels.length)+bW/2,y=v>=0?H-40-h:H-40;
+    var v=values[i];
+    var h=Math.abs(v)/max*chartH;
+    var cx=i*slot+slot/2;
+    var x=cx-bW/2;
+    var y=v>=0?(topPad+chartH-h):(topPad+chartH);
     ctx.fillStyle=colors[i]||'#3b82f6';
-    ctx.fillRect(x,y,bW,h);
-    ctx.fillStyle='#333';ctx.font='10px Arial';ctx.textAlign='center';
-    ctx.fillText(l,x+bW/2,H-5);
-    ctx.fillText(fn(v),x+bW/2,v>=0?y-3:y+h+12);
+    ctx.fillRect(x,y,bW,Math.max(h,1));
+    // قيمة الرقم فوق العمود
+    ctx.fillStyle='#1a1a2e';
+    ctx.font='bold 10px Cairo, Arial';
+    ctx.textAlign='center';
+    var valY=v>=0?(y-6):(y+h+14);
+    ctx.fillText(fn(v),cx,valY);
+    // تسمية العمود أسفل الرسم بمسافة آمنة، مع لف للأسطر الطويلة
+    ctx.fillStyle='#555';
+    ctx.font='9px Cairo, Arial';
+    var words=String(l).split(' ');
+    var lines=[];
+    var cur='';
+    words.forEach(function(w){
+      var test=cur?cur+' '+w:w;
+      if(ctx.measureText(test).width>slot-4 && cur){lines.push(cur);cur=w;}
+      else cur=test;
+    });
+    if(cur)lines.push(cur);
+    lines.slice(0,2).forEach(function(ln,li){
+      ctx.fillText(ln,cx,H-bottomPad+16+li*11);
+    });
   });
 }
 
