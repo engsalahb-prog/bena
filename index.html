@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/ASUS/Downloads/index_11.html -->
+<!-- saved from url=(0045)file:///C:/Users/ASUS/Downloads/index_12.html -->
 <html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1378,11 +1378,19 @@ function editExtract(i){
   var btn=modal.querySelector('.factions .btn-navy');
   btn.textContent='💾 تحديث';
   btn.onclick=function(){
+    var oldCollected=Number(e.collected||0);
     e.num=gv('ex-num');e.project_id=gv('ex-proj');e.amount=gs('ex-val');
     e.collected=gs('ex-col');e.retention=gs('ex-ret');e.progress_pct=gs('ex-prog');
     e.status=gv('ex-status');e.notes=gv('ex-notes');
-    save();closeM('addExtract');btn.onclick=addExtract;btn.textContent='💾 حفظ';
-    renderExtracts();renderDashboard();
+    var newCollected=Number(e.collected||0);
+    var diff=newCollected-oldCollected;
+    if(diff>0&&e.extract_type==='owner'){
+      var diffObj={project_id:e.project_id,tx_date:td(),description:'تحصيل مستخلص رقم '+e.num,category:'مستخلص',tx_type:'in',amount:diff,is_auto:true};
+      DB.transactions.unshift(diffObj);
+      cloudSave('transactions',diffObj);
+    }
+    save();closeM('addExtract');cloudSave('extracts',e);btn.onclick=addExtract;btn.textContent='💾 حفظ';
+    renderExtracts();renderDashboard();renderFinance();
   };
 }
 
@@ -1881,9 +1889,15 @@ function editSale(i){
   var btn=modal.querySelector('.factions .btn-navy');btn.textContent='💾 تحديث';
   btn.onclick=function(){
     var net=gs('sl-amt'),rate=parseFloat(gv('sl-rate'));if(isNaN(rate))rate=15;
+    var oldPaid=Number(s.paid||0);
     s.num=gv('sl-num');s.invoice_date=gd('sl-date')||s.invoice_date;s.project_id=gv('sl-proj');s.client=gv('sl-client');s.description=gv('sl-desc');
     s.taxable_amount=net;s.vat_rate=rate;s.vat_amount=Math.round(net*rate/100*100)/100;s.total=Math.round((net+s.vat_amount)*100)/100;s.paid=gs('sl-paid');s.status=gv('sl-status');
-    save();closeM('addSale');document.getElementById('sale-m-title').textContent='🧾 فاتورة مبيعات جديدة';btn.onclick=addSale;btn.textContent='💾 حفظ';renderSales();renderDashboard();toast('تم تحديث فاتورة المبيعات','ok');
+    var diff=Number(s.paid||0)-oldPaid;
+    if(diff>0){
+      var diffObj={project_id:s.project_id,tx_date:td(),description:'تحصيل فاتورة مبيعات '+s.num+(s.client?' — '+s.client:''),category:'فاتورة مبيعات',tx_type:'in',amount:diff,is_auto:true};
+      DB.transactions.unshift(diffObj);cloudSave('transactions',diffObj);
+    }
+    save();closeM('addSale');document.getElementById('sale-m-title').textContent='🧾 فاتورة مبيعات جديدة';btn.onclick=addSale;btn.textContent='💾 حفظ';renderSales();renderDashboard();renderFinance();toast('تم تحديث فاتورة المبيعات','ok');
   };
 }
 
@@ -1898,9 +1912,15 @@ function editPurchase(i){
   var btn=modal.querySelector('.factions .btn-navy');btn.textContent='💾 تحديث';
   btn.onclick=function(){
     var net=gs('pu-amt'),rate=parseFloat(gv('pu-rate'));if(isNaN(rate))rate=15;
+    var oldPaid=Number(p.paid||0);
     p.num=gv('pu-num');p.supplier=gv('pu-sup');p.invoice_date=gd('pu-date')||p.invoice_date;p.project_id=gv('pu-proj');p.cost_center=gv('pu-cc');p.description=gv('pu-desc');
     p.taxable_amount=net;p.vat_rate=rate;p.vat_amount=Math.round(net*rate/100*100)/100;p.total=Math.round((net+p.vat_amount)*100)/100;p.paid=gs('pu-paid');p.status=gv('pu-status');
-    save();closeM('addPurchase');document.getElementById('pur-m-title').textContent='🛒 فاتورة مشتريات جديدة';btn.onclick=addPurchase;btn.textContent='💾 حفظ';renderPurchases();renderDashboard();toast('تم تحديث فاتورة المشتريات','ok');
+    var diff=Number(p.paid||0)-oldPaid;
+    if(diff>0){
+      var diffObj={project_id:p.project_id,tx_date:td(),description:'سداد فاتورة مشتريات '+p.num+(p.supplier?' — '+p.supplier:''),category:'فاتورة مورد',tx_type:'out',amount:diff,is_auto:true};
+      DB.transactions.unshift(diffObj);cloudSave('transactions',diffObj);
+    }
+    save();closeM('addPurchase');document.getElementById('pur-m-title').textContent='🛒 فاتورة مشتريات جديدة';btn.onclick=addPurchase;btn.textContent='💾 حفظ';renderPurchases();renderDashboard();renderFinance();toast('تم تحديث فاتورة المشتريات','ok');
   };
 }
 
